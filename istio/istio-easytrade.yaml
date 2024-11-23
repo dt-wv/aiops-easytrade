@@ -10,7 +10,7 @@ spec:
     - port:
         number: 80
         name: http
-        protocol: HTTP
+        protocol: TCP
       hosts:
         - "*"
 ---
@@ -26,7 +26,7 @@ spec:
     - port:
         number: 8080
         name: http2
-        protocol: HTTP
+        protocol: TCP
       hosts:
         - "*"
 ---
