@@ -33,11 +33,3 @@ spec:
             port:
               number: 80
             host: frontendreverseproxy-easytrade.easytrade.svc.cluster.local
-    - match:
-        - uri:
-            prefix: /feature-flag-service
-      route:
-        - destination:
-            port:
-              number: 8080
-            host: feature-flag-service.easytrade.svc.cluster.local
