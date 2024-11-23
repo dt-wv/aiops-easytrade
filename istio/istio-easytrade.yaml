@@ -15,6 +15,22 @@ spec:
         - "*"
 ---
 apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: easytrade-feature-gateway
+  namespace: easytrade
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 8080
+        name: http2
+        protocol: HTTP
+      hosts:
+        - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: easytrade-httproute
@@ -33,3 +49,23 @@ spec:
             port:
               number: 80
             host: frontendreverseproxy-easytrade
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: easytrade-feature-httproute
+  namespace: easytrade
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - easytrade-feature-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            port:
+              number: 8080
+            host: feature-flag-service

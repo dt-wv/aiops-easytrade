@@ -9,12 +9,11 @@ spec:
     nodePort: 30110
     port: 80
     protocol: TCP
-    targetPort: 8080
-  - name: https
+    #targetPort: 80
+  - name: http2
     nodePort: 30120
-    port: 443
+    port: 8080
     protocol: TCP
-    targetPort: 8443
   - name: tcp
     nodePort: 30230
     port: 31400
