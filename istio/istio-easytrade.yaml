@@ -32,14 +32,14 @@ spec:
     - easytrade-gateway
   http:
     - match:
-        - port: 80
+        - port: 30110
       route:
         - destination:
             port:
               number: 80
             host: frontendreverseproxy-easytrade.easytrade.svc.cluster.local
     - match:
-        - port: 8080
+        - port: 30111
       route:
         - destination:
             port:
