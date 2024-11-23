@@ -22,7 +22,7 @@
     "vscode": {
       // Set container specific settings
       "settings": {
-        "terminal.integrated.defaultProfile.linux": "zsh"
+        "terminal.integrated.defaultProfile.linux": "bash"
       },
       "extensions": [
         "ms-azuretools.vscode-docker",
