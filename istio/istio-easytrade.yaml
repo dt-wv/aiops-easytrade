@@ -12,7 +12,7 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-        - "easytrade.IP_TO_REPLACE.nip.io"
+        - "*"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -21,7 +21,7 @@ metadata:
   namespace: easytrade
 spec:
   hosts:
-    - "easytrade.IP_TO_REPLACE.nip.io"
+    - "*"
   gateways:
     - easytrade-gateway
   http:
@@ -31,5 +31,5 @@ spec:
       route:
         - destination:
             port:
-              number: 8080
+              number: 80
             host: easytrade-frontendproxy
