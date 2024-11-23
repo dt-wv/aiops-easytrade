@@ -41,7 +41,7 @@ RUN sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.23.1.linux-amd6
 RUN export PATH=$PATH:/usr/local/go/bin
 
 # Kubectl autocomplete
-RUN echo 'source <(kubectl completion zsh)' >>~/.zshrc
+RUN echo 'source <(kubectl completion bash)' >>~/.bashrc
 
 ENTRYPOINT [ "/usr/local/share/docker-init.sh" ]
 CMD [ "sleep", "infinity" ]
