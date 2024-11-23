@@ -21,4 +21,6 @@ kubectl create namespace easytrade
 kubectl -n easytrade apply -f easytrade-k8s-manifests
 # enable istio on the namespace
 kubectl label namespace easytrade istio-injection=enabled
+sleep 60
+
 kubectl apply -f istio/istio-easytrade.yaml
