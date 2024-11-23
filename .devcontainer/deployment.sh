@@ -5,7 +5,6 @@
 export PATH=$PWD/istio-1.24.0/bin:$PATH
 chmod +x istio-1.24.0/bin/istioctl
 istioctl install -f istio/istio-operator.yaml --skip-confirmation
-kubectl apply -f istio/istio-easytrade.yaml
 
 sleep 30 
 
@@ -21,4 +20,5 @@ kubectl create namespace easytrade
 # then use the manifests to deploy
 kubectl -n easytrade apply -f easytrade-k8s-manifests
 # enable istio on the namespace
+kubectl apply -f istio/istio-easytrade.yaml
 kubectl label namespace easytrade istio-injection=enabled
