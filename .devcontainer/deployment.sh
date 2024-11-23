@@ -19,8 +19,8 @@ kubectl create namespace easytrade
 
 # then use the manifests to deploy
 kubectl -n easytrade apply -f easytrade-k8s-manifests
-
-# Optional: if you want the problem patterns to be automatically
-# enabled once a day, deploy these manifests too
-kubectl -n easytrade apply -f easytrade-k8s-manifests/problem-patterns
+# enable istio on the namespace
 kubectl label namespace easytrade istio-injection=enabled
+sleep 60
+
+kubectl apply -f istio/istio-easytrade.yaml
