@@ -5,7 +5,7 @@ spec:
     port: 15021
     protocol: TCP
     targetPort: 15021
-  - name: http2
+  - name: http
     nodePort: 30110
     port: 80
     protocol: TCP
