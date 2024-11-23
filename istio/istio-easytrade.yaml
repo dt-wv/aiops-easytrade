@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: easytrade-gateway
+  namespace: easytrade
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "easytrade.IP_TO_REPLACE.nip.io"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: easytrade-httproute
+  namespace: easytrade
+spec:
+  hosts:
+    - "easytrade.IP_TO_REPLACE.nip.io"
+  gateways:
+    - easytrade-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            port:
+              number: 8080
+            host: easytrade-frontendproxy
