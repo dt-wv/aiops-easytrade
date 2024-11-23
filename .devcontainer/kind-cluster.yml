@@ -29,9 +29,6 @@ nodes:
   - hostPort: 30110
     containerPort: 30110
     protocol: TCP
-  - hostPort: 30111
-    containerPort: 30111
-    protocol: TCP
   - hostPort: 30120
     containerPort: 30120
     protocol: TCP

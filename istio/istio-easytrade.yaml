@@ -26,14 +26,16 @@ spec:
     - easytrade-gateway
   http:
     - match:
-        - uri: "*30110*"
+        - uri: 
+            prefix: /
       route:
         - destination:
             port:
               number: 80
             host: frontendreverseproxy-easytrade.easytrade.svc.cluster.local
     - match:
-        - uri: "*30111*"
+        - uri:
+            prefix: /feature-flag-service
       route:
         - destination:
             port:
