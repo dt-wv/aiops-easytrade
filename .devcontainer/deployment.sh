@@ -2,7 +2,7 @@
 
 ########################## 
 # istio setup
-export PATH=$PWD/istio-1.24/bin:$PATH
+export PATH=$PWD/istio-1.24.0/bin:$PATH
 istioctl install -f istio/istio-operator.yaml --skip-confirmation
 
 sleep 30 
