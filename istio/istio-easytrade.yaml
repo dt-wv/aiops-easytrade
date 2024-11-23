@@ -13,12 +13,6 @@ spec:
         protocol: HTTP
       hosts:
         - "*"
-    - port:
-        number: 8080
-        name: http2
-        protocol: HTTP
-      hosts:
-        - "*"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -32,14 +26,14 @@ spec:
     - easytrade-gateway
   http:
     - match:
-        - port: 30110
+        - uri: "*30110*"
       route:
         - destination:
             port:
               number: 80
             host: frontendreverseproxy-easytrade.easytrade.svc.cluster.local
     - match:
-        - port: 30111
+        - uri: "*30111*"
       route:
         - destination:
             port:
