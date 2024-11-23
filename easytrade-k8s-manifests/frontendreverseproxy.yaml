@@ -33,7 +33,7 @@ metadata:
   # annotations:
   #   service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: frontendreverseproxy
   ports:
