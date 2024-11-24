@@ -64,4 +64,7 @@ sleep 30
 kubectl label namespace easytrade instrumentation=oneagent
 #for i in $(kubectl get deployments -n easytrade -o=jsonpath='{.items[*].metadata.name}'); do kubectl rollout restart -n easytrade deployment $i ; sleep 80 ; done
 
+echo ""
+echo "[+] Demo installation completed"
+echo "\n"
 echo "Kubernetes Dynatrace cluster: k8s-kind-easytrade-$suffix"
