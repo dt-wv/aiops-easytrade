@@ -39,7 +39,7 @@ kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=$OP
 sed -i "s/REPLACE_TENANT_ID/$TENANT_ID/g" dynatrace/application.yaml
 
 kubectl apply -f dynatrace/application.yaml
-sleep 60
+kubectl -n dynatrace wait pod --for=condition=ready --selector=app.kubernetes.io/name=activegate --timeout=120s
 
 ##########################
 # Install Easytrade
