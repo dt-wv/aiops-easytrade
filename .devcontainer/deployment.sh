@@ -16,11 +16,8 @@ kubectl delete pod --all -n istio-system
 ##########################
 # Install Dynatrace
 kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/download/v1.3.2/kubernetes.yaml
-
-read -p 'Operator Token:' OPERATOR_TOKEN
-read -p 'Data ingest Token:' DATA_INGEST_TOKEN
-read -p 'Tenant ID:' TENANT_ID
-
+[[ -z "$OPERATOR_TOKEN" ]] && echo "Variable Operator token not defined"
+[[ -z "$DATA_INGEST_TOKEN" ]] && echo "Variable Date ingest token not defined"
 kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=$OPERATOR_TOKEN" --from-literal="dataIngestToken=$DATA_INGEST_TOKEN"
 sed -i 's/REPLACE_TENANT_ID/$TENANT_ID/g' dynatrace/application.yaml
 
