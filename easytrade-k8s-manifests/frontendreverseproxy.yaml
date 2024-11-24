@@ -11,6 +11,8 @@ spec:
       labels:
         app: frontendreverseproxy
     spec:
+      nodeSelector:
+        easytrade: "true"
       containers:
         - name: frontendreverseproxy
           image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/frontendreverseproxy:8831949

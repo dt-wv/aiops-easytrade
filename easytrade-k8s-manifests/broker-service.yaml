@@ -21,6 +21,8 @@ spec:
       labels:
         app: broker-service
     spec:
+      nodeSelector:
+        easytrade: "true"
       containers:
         - name: broker-service
           image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/broker-service:8831949

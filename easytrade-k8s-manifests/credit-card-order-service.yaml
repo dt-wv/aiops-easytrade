@@ -11,6 +11,8 @@ spec:
       labels:
         app: credit-card-order-service
     spec:
+      nodeSelector:
+        easytrade: "true"
       containers:
         - name: credit-card-order-service
           image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/credit-card-order-service:8831949

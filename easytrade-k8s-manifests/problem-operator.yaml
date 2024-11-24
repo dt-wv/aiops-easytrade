@@ -41,6 +41,8 @@ spec:
         app: problem-operator
     spec:
       serviceAccountName: problem-operator-service-account
+      nodeSelector:
+        easytrade: "true"
       containers:
         - name: problem-operator
           image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/problem-operator:8831949

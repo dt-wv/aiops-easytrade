@@ -11,6 +11,8 @@ spec:
       labels:
         app: rabbitmq
     spec:
+      nodeSelector:
+        easytrade: "true"
       containers:
         - name: rabbitmq
           image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/rabbitmq:8831949

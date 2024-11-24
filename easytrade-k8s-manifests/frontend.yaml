@@ -11,6 +11,8 @@ spec:
       labels:
         app: frontend
     spec:
+      nodeSelector:
+        easytrade: "true"
       containers:
         - name: frontend
           image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/frontend:8831949

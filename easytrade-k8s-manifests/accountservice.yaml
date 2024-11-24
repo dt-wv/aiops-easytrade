@@ -11,6 +11,8 @@ spec:
       labels:
         app: accountservice
     spec:
+      nodeSelector:
+        easytrade: "true"
       containers:
         - name: accountservice
           image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/accountservice:8831949
