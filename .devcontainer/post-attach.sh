@@ -45,7 +45,7 @@ sleep 60
 # Install Easytrade
 # create easytrade namespace and label for oneagent and istio injection
 kubectl create namespace easytrade
-kubectl label namespace easytrade instrumentation=oneagent
+#kubectl label namespace easytrade instrumentation=oneagent
 kubectl label namespace easytrade istio-injection=enabled
 
 # then use the manifests to deploy
