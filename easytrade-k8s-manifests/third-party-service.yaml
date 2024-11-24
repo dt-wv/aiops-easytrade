@@ -11,8 +11,6 @@ spec:
       labels:
         app: third-party-service
     spec:
-      nodeSelector:
-        easytrade: "true"
       containers:
         - name: third-party-service
           image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/third-party-service:8831949

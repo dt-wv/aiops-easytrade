@@ -1,7 +1,7 @@
 apiVersion: dynatrace.com/v1beta2
 kind: DynaKube
 metadata:
-  name: k8s-kind-easytrade
+  name: k8s-kind-easytrade-REPLACE_NAME
   namespace: dynatrace
 spec:
   # For Managed, change the apiUrl address.

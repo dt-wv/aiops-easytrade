@@ -11,8 +11,6 @@ spec:
       labels:
         app: db
     spec:
-      nodeSelector:
-        easytrade: "true"
       containers:
         - name: db
           image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/db:8831949

@@ -11,8 +11,6 @@ spec:
       labels:
         app: pricing-service
     spec:
-      nodeSelector:
-        easytrade: "true"
       containers:
         - name: pricing-service
           image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/pricing-service:8831949

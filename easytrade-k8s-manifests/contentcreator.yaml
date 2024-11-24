@@ -11,8 +11,6 @@ spec:
       labels:
         app: contentcreator
     spec:
-      nodeSelector:
-        easytrade: "true"
       containers:
         - name: contentcreator
           image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/contentcreator:8831949

@@ -20,8 +20,6 @@ spec:
       labels:
         app: aggregator-service
     spec:
-      nodeSelector:
-        easytrade: "true"
       containers:
         - name: aggregator-service
           image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/aggregator-service:8831949

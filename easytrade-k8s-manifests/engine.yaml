@@ -11,8 +11,6 @@ spec:
       labels:
         app: engine
     spec:
-      nodeSelector:
-        easytrade: "true"
       containers:
         - name: engine
           image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/engine:8831949

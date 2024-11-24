@@ -21,8 +21,6 @@ spec:
       labels:
         app: offerservice
     spec:
-      nodeSelector:
-        easytrade: "true"
       containers:
         - name: offerservice
           image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/offerservice:8831949

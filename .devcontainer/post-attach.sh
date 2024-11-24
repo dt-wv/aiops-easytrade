@@ -29,6 +29,9 @@ read -p 'Operator token: ' OPERATOR_TOKEN
 read -p 'Data ingest token: ' DATA_INGEST_TOKEN 
 read -p 'Tenant ID: ' TENANT_ID
 
+#### generate random 5char string
+suffix=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 5 | head -n 1`
+
 ##########################
 # Install Dynatrace
 kubectl create namespace dynatrace
@@ -36,7 +39,9 @@ kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/downlo
 kubectl -n dynatrace wait pod --for=condition=ready --selector=app.kubernetes.io/name=dynatrace-operator,app.kubernetes.io/component=webhook --timeout=120s
 kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=$OPERATOR_TOKEN" --from-literal="dataIngestToken=$DATA_INGEST_TOKEN"
 
+sed -i "s/REPLACE_NAME/$suffix/g" dynatrace/application.yaml
 sed -i "s/REPLACE_TENANT_ID/$TENANT_ID/g" dynatrace/application.yaml
+
 
 kubectl apply -f dynatrace/application.yaml
 sleep 60
@@ -57,4 +62,6 @@ kubectl apply -f istio/istio-easytrade.yaml
 sleep 30
 ## label for oneagent injection and inject per deployment
 kubectl label namespace easytrade instrumentation=oneagent
-for i in $(kubectl get pods -n easytrade | awk '{print $1}' | head -1); do kubectl rollout restart -n easytrade deployment $i ; sleep 80 ; done
+#for i in $(kubectl get deployments -n easytrade -o=jsonpath='{.items[*].metadata.name}'); do kubectl rollout restart -n easytrade deployment $i ; sleep 80 ; done
+
+echo "Kubernetes Dynatrace cluster: k8s-kind-easytrade-$suffix"
