@@ -43,9 +43,8 @@ sleep 60
 
 ##########################
 # Install Easytrade
-# create easytrade namespace and label for oneagent and istio injection
+# create easytrade namespace and label and istio injection
 kubectl create namespace easytrade
-#kubectl label namespace easytrade instrumentation=oneagent
 kubectl label namespace easytrade istio-injection=enabled
 
 # then use the manifests to deploy
@@ -54,3 +53,8 @@ kubectl -n easytrade apply -f easytrade-k8s-manifests
 sleep 120
 
 kubectl apply -f istio/istio-easytrade.yaml
+
+sleep 30
+## label for oneagent injection and inject per deployment
+kubectl label namespace easytrade instrumentation=oneagent
+for i in $(kubectl get pods -n easytrade | awk '{print $1}'); do kubectl rollout restart -n easytrade deployment $1; sleep 80 ;done
