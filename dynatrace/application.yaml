@@ -33,7 +33,7 @@ spec:
          matchLabels:
            instrumentation: oneagent
 
-    useCSIDriver: false
+       useCSIDriver: false
      
   # Configuration for ActiveGate instances.
   #
