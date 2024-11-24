@@ -34,6 +34,15 @@ spec:
            instrumentation: oneagent
 
        useCSIDriver: false
+
+       initResources:
+         requests:
+           cpu: 100m
+           memory: 512Mi
+         limits:
+           cpu: 300m
+           memory: 1.5Gi
+
      
   # Configuration for ActiveGate instances.
   #
