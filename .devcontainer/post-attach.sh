@@ -57,4 +57,4 @@ kubectl apply -f istio/istio-easytrade.yaml
 sleep 30
 ## label for oneagent injection and inject per deployment
 kubectl label namespace easytrade instrumentation=oneagent
-for i in $(kubectl get pods -n easytrade | awk '{print $1}'); do kubectl rollout restart -n easytrade deployment $i ; sleep 80 ; done
+for i in $(kubectl get pods -n easytrade | awk '{print $1}' | head -1); do kubectl rollout restart -n easytrade deployment $i ; sleep 80 ; done
