@@ -49,7 +49,7 @@
   },
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "read -p 'Operator Token: ' OPERATOR_TOKEN; read -p 'Data ingest Token: ' DATA_INGEST_TOKEN; read -p 'Tenant ID: '' TENANT_ID; chmod +x .devcontainer/post-create.sh && source .devcontainer/post-create.sh",
+  "postCreateCommand": "read -p 'Operator Token: ' OPERATOR_TOKEN && read -p 'Data ingest Token: ' DATA_INGEST_TOKEN && read -p 'Tenant ID: ' TENANT_ID && chmod +x .devcontainer/post-create.sh && source .devcontainer/post-create.sh",
 
   // Use 'postStartCommand' to run commands after the container starts.
   "postStartCommand": "chmod +x .devcontainer/post-start.sh && .devcontainer/post-start.sh",
