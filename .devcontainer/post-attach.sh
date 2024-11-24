@@ -36,7 +36,7 @@ kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/downlo
 kubectl -n dynatrace wait pod --for=condition=ready --selector=app.kubernetes.io/name=dynatrace-operator,app.kubernetes.io/component=webhook --timeout=120s
 kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=$OPERATOR_TOKEN" --from-literal="dataIngestToken=$DATA_INGEST_TOKEN"
 
-sed -i 's/REPLACE_TENANT_ID/$TENANT_ID/g' dynatrace/application.yaml
+sed -i "s/REPLACE_TENANT_ID/$TENANT_ID/g" dynatrace/application.yaml
 
 kubectl apply -f dynatrace/application.yaml
 sleep 60
