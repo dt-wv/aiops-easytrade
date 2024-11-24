@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+kind create cluster --config .devcontainer/kind-cluster.yml --wait 300s
+chmod +x .devcontainer/deployment.sh && source .devcontainer/deployment.sh
+
 ##########################
 # Read some variables
 read -p 'Operator token: ' OPERATOR_TOKEN
@@ -15,10 +18,10 @@ kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/downlo
 
 kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=$OPERATOR_TOKEN" --from-literal="dataIngestToken=$DATA_INGEST_TOKEN"
 
-sed -i 's/REPLACE_TENANT_ID/$TENANT_ID/g' dynatrace/application.yaml
+sed -i 's/REPLACE_TENANT_ID/$TENANT_ID/g' .dynatrace/application.yaml
 
 sleep 20
-kubectl apply -f dynatrace/application.yaml
+kubectl apply -f .dynatrace/application.yaml
 sleep 30
 
 ##########################
@@ -30,6 +33,7 @@ kubectl create namespace easytrade
 kubectl -n easytrade apply -f easytrade-k8s-manifests
 # enable istio on the namespace
 kubectl label namespace easytrade istio-injection=enabled
+kubectl label namespace easytrade instrumentation=oneagent
 sleep 60
 
-kubectl apply -f istio/istio-easytrade.yaml
+kubectl apply -f .istio/istio-easytrade.yaml
