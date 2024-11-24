@@ -45,7 +45,7 @@
   },
 
   "hostRequirements": {
-    "cpus": 8
+    "cpus": 4
   },
 
   "postAttachCommand":  "chmod +x .devcontainer/post-attach.sh && .devcontainer/post-attach.sh",
