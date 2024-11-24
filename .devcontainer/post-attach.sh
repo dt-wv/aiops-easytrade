@@ -3,6 +3,7 @@
 ##########################
 # Deploy Kind - k8s
 kind create cluster --config .devcontainer/kind-cluster.yml --wait 300s
+kubectl taint node kind-control-plane node-role.kubernetes.io/control-plane:NoSchedule-
 
 ########################## 
 # istio setup
