@@ -30,7 +30,7 @@ read -p 'Data ingest token: ' DATA_INGEST_TOKEN
 read -p 'Tenant ID: ' TENANT_ID
 
 #### generate random 5char string
-suffix=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 5 | head -n 1`
+suffix=`cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 5 | head -n 1`
 
 ##########################
 # Install Dynatrace
