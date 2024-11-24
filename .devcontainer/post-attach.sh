@@ -20,6 +20,9 @@ kubectl delete pod --all -n istio-system
 ##########################
 # Read some variables
 clear
+echo '###############################################'
+echo '#          Dynatrace information              #'
+echo '###############################################'
 read -p 'Operator token: ' OPERATOR_TOKEN
 read -p 'Data ingest token: ' DATA_INGEST_TOKEN 
 read -p 'Tenant ID: ' TENANT_ID
@@ -28,9 +31,6 @@ read -p 'Tenant ID: ' TENANT_ID
 # Install Dynatrace
 kubectl create namespace dynatrace
 kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/download/v1.3.2/kubernetes.yaml
-
-[[ -z "$OPERATOR_TOKEN" ]] && echo "Variable Operator token not defined"
-[[ -z "$DATA_INGEST_TOKEN" ]] && echo "Variable Date ingest token not defined"
 
 kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=$OPERATOR_TOKEN" --from-literal="dataIngestToken=$DATA_INGEST_TOKEN"
 
@@ -47,7 +47,8 @@ kubectl create namespace easytrade
 
 # then use the manifests to deploy
 kubectl -n easytrade apply -f easytrade-k8s-manifests
-# enable istio on the namespace
+
+# enable istio and oneagent injection on the namespace
 kubectl label namespace easytrade istio-injection=enabled
 kubectl label namespace easytrade instrumentation=oneagent
 sleep 60
