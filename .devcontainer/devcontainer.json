@@ -48,7 +48,7 @@
     "cpus": 4
   },
 
-  "postAttachCommand":  "chmod +x .devcontainer/post-attach.sh && .devcontainer/post-attach.sh",
+  //"postAttachCommand":  "chmod +x .devcontainer/post-attach.sh && .devcontainer/post-attach.sh",
 
   // Use 'postCreateCommand' to run commands after the container is created.
   "postCreateCommand": "chmod +x .devcontainer/post-create.sh && source .devcontainer/post-create.sh",
