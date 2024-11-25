@@ -55,7 +55,7 @@ sleep 60
 # Install Easytrade
 # create easytrade namespace and label and istio injection
 kubectl create namespace easytrade
-kubectl label namespace easytrade istio-injection=enabled
+#kubectl label namespace easytrade istio-injection=enabled
 
 # then use the manifests to deploy
 kubectl -n easytrade apply -f easytrade-k8s-manifests
