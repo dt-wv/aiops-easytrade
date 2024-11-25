@@ -36,6 +36,7 @@ suffix=`cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 5 | head -n 1`
 # Install Dynatrace
 kubectl create namespace dynatrace
 kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/download/v1.3.2/kubernetes.yaml
+kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/download/v1.3.2/kubernetes-csi.yaml
 kubectl -n dynatrace wait pod --for=condition=ready --selector=app.kubernetes.io/name=dynatrace-operator,app.kubernetes.io/component=webhook --timeout=120s
 kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=$OPERATOR_TOKEN" --from-literal="dataIngestToken=$DATA_INGEST_TOKEN"
 
@@ -62,7 +63,7 @@ kubectl apply -f istio/istio-easytrade.yaml
 sleep 30
 ## label for oneagent injection and inject per deployment
 kubectl label namespace easytrade instrumentation=oneagent
-#for i in $(kubectl get deployments -n easytrade -o=jsonpath='{.items[*].metadata.name}'); do kubectl rollout restart -n easytrade deployment $i ; sleep 80 ; done
+#for i in $(kubectl get deployments -n easytrade -o=jsonpath='{.items[*].metadata.name}'); do kubectl rollout restart -n easytrade deployment $i ; sleep 60 ; done
 
 echo ""
 echo "[+] Demo installation completed"

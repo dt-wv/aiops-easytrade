@@ -19,9 +19,6 @@ nodes:
     nodeRegistration:
       kubeletExtraArgs:
         node-labels: "ingress-ready=true"
-  extraMounts:
-  - hostPath: /
-    containerPath: /mnt/root
   extraPortMappings:
   - hostPort: 30100
     containerPort: 30100
