@@ -42,6 +42,7 @@ kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=$OP
 
 sed -i "s/REPLACE_NAME/$suffix/g" dynatrace/application.yaml
 sed -i "s/REPLACE_TENANT_ID/$TENANT_ID/g" dynatrace/application.yaml
+sed -i "s/REPLACE_TENANT_ID/$TENANT_ID/g" dynatrace/fluent-bit-values.yaml
 
 
 kubectl apply -f dynatrace/application.yaml
@@ -61,9 +62,24 @@ sleep 120
 kubectl apply -f istio/istio-easytrade.yaml
 
 sleep 30
+##########################
+# Install Fluent-bit
+helm repo add fluent https://fluent.github.io/helm-charts
+helm repo update
+
+date_suffix=`date +"%Y-%m-%d-%s"`
+clear
+read -p "Log ingest token: " LOG_TOKEN
+sed -i "s/REPLACE_LOG_TOKEN/$LOG_TOKEN/g" dynatrace/fluent-bit-values.yaml
+sed -i "s/REPLACE_DATE/$date_suffix/g" dynatrace/fluent-bit-values.yaml
+
+helm install fluent-bit fluent/fluent-bit -f dynatrace/fluent-bit-values.yaml \
+--create-namespace \
+--namespace dynatrace-fluent-bit
+
 ## label for oneagent injection and inject per deployment
 kubectl label namespace easytrade instrumentation=oneagent
-#for i in $(kubectl get deployments -n easytrade -o=jsonpath='{.items[*].metadata.name}'); do kubectl rollout restart -n easytrade deployment $i ; sleep 60 ; done
+for i in $(kubectl get deployments -n easytrade -o=jsonpath='{.items[*].metadata.name}'); do kubectl rollout restart -n easytrade deployment $i ; sleep 60 ; done
 
 echo ""
 echo "[+] Demo installation completed"
