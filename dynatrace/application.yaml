@@ -9,7 +9,7 @@ spec:
   apiUrl: https://REPLACE_TENANT_ID.live.dynatrace.com/api
   tokens: "dynakube"
   skipCertCheck: false
-  enableIstio: false
+  enableIstio: true
 
   # Configuration for Metadata Enrichment.
   #
