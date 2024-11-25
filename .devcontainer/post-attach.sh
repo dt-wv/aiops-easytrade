@@ -6,19 +6,6 @@ kind create cluster --config .devcontainer/kind-cluster.yml --wait 300s
 kubectl taint node kind-control-plane node-role.kubernetes.io/control-plane:NoSchedule-
 kubectl label nodes kind-worker easytrade=true
 
-########################## 
-# istio setup
-export PATH=$PWD/istio-1.24.0/bin:$PATH
-chmod +x istio-1.24.0/bin/istioctl
-istioctl install -f istio/istio-operator.yaml --skip-confirmation
-
-sleep 30 
-
-##########################
-# update istio ingress
-kubectl patch svc -n istio-system istio-ingressgateway --patch "$(cat istio/patch.yaml)"
-kubectl delete pod --all -n istio-system
-
 ##########################
 # Read some variables
 clear
@@ -55,16 +42,12 @@ sleep 60
 # Install Easytrade
 # create easytrade namespace and label and istio injection
 kubectl create namespace easytrade
-#kubectl label namespace easytrade istio-injection=enabled
 
 # then use the manifests to deploy
 kubectl -n easytrade apply -f easytrade-k8s-manifests
 
 sleep 120
 
-kubectl apply -f istio/istio-easytrade.yaml
-
-sleep 30
 ##########################
 # Install Fluent-bit
 helm repo add fluent https://fluent.github.io/helm-charts
@@ -82,3 +65,4 @@ echo "[+] Demo installation completed"
 echo ""
 echo "Kubernetes Dynatrace cluster: k8s-kind-easytrade-$suffix"
 echo ""
+kubectl port-forward -n easytrade svc/frontendreverseproxy-easytrade 30110:80 &
