@@ -20,6 +20,7 @@ spec:
     metadata:
       labels:
         app: offerservice
+        dt.owner: devopsteam
     spec:
       containers:
         - name: offerservice
@@ -32,6 +33,8 @@ spec:
                 name: offerservice-envs
             - configMapRef:
                 name: feature-flag-service-setup
+            - configMapRef:
+                name: dynatrace-envs
           resources:
             requests:
               cpu: 50m

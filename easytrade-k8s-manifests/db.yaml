@@ -10,6 +10,7 @@ spec:
     metadata:
       labels:
         app: db
+        dt.owner: devopsteam
     spec:
       containers:
         - name: db
@@ -19,6 +20,9 @@ spec:
           env:
             - name: SA_PASSWORD
               value: "yourStrong(!)Password"
+          envFrom:
+            - configMapRef:
+                name: dynatrace-envs
           resources:
             requests:
               cpu: 40m

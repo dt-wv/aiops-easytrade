@@ -10,6 +10,7 @@ spec:
     metadata:
       labels:
         app: credit-card-order-service
+        dt.owner: devopsteam
     spec:
       containers:
         - name: credit-card-order-service
@@ -19,6 +20,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: feature-flag-service-setup
+            - configMapRef:
+                name: dynatrace-envs
           env:
             - name: PROXY_PREFIX
               value: "credit-card-order-service"

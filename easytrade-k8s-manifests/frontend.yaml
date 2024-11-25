@@ -10,6 +10,7 @@ spec:
     metadata:
       labels:
         app: frontend
+        dt.owner: devopsteam
     spec:
       nodeSelector:
         easytrade: "true"
@@ -19,6 +20,9 @@ spec:
           ports:
             - containerPort: 3000
           env: []
+          envFrom:
+            - configMapRef:
+                name: dynatrace-envs
           resources:
             requests:
               cpu: 10m

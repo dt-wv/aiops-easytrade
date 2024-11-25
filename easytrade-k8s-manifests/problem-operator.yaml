@@ -39,6 +39,7 @@ spec:
     metadata:
       labels:
         app: problem-operator
+        dt.owner: devopsteam
     spec:
       serviceAccountName: problem-operator-service-account
       containers:
@@ -54,6 +55,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: feature-flag-service-setup
+            - configMapRef:
+                name: dynatrace-envs
           resources:
             requests:
               cpu: 10m

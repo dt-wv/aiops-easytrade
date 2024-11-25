@@ -10,6 +10,7 @@ spec:
     metadata:
       labels:
         app: contentcreator
+        dt.owner: devopsteam
     spec:
       containers:
         - name: contentcreator
@@ -20,6 +21,9 @@ spec:
                 configMapKeyRef:
                   name: connection-strings
                   key: JAVA_CONNECTION_STRING
+          envFrom:
+            - configMapRef:
+                name: dynatrace-envs
           resources:
             requests:
               cpu: 10m

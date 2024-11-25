@@ -10,6 +10,7 @@ spec:
     metadata:
       labels:
         app: pricing-service
+        dt.owner: devopsteam
     spec:
       containers:
         - name: pricing-service
@@ -27,6 +28,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: rabbitmq-vars
+            - configMapRef:
+                name: dynatrace-envs
           resources:
             requests:
               cpu: 20m

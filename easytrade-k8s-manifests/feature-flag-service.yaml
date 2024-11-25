@@ -10,6 +10,7 @@ spec:
     metadata:
       labels:
         app: feature-flag-service
+        dt.owner: devopsteam
     spec:
       containers:
         - name: feature-flag-service
@@ -17,6 +18,9 @@ spec:
           ports:
             - containerPort: 8080
           env: []
+          envFrom:
+            - configMapRef:
+                name: dynatrace-envs
           resources:
             requests:
               cpu: 30m

@@ -1,3 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dynatrace-envs
+data:
+  DT_RELEASE_VERSION: "v1"
+  DT_RELEASE_PRODUCT: "easytrade"
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -10,6 +18,7 @@ spec:
     metadata:
       labels:
         app: accountservice
+        dt.owner: devopsteam
     spec:
       containers:
         - name: accountservice
@@ -21,6 +30,9 @@ spec:
               value: "manager:8080"
             - name: PROXY_PREFIX
               value: "accountservice"
+          envFrom:
+            - configMapRef:
+                name: dynatrace-envs
           resources:
             requests:
               cpu: 30m

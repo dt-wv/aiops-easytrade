@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         app: loadgen
+        dt.owner: devopsteam
     spec:
       nodeSelector:
         easytrade: "true"
@@ -23,6 +24,9 @@ spec:
               value: "http://frontendreverseproxy-easytrade"
             - name: RARE_VISITS_INTERVAL_MINUTES
               value: "60"
+          envFrom:
+            - configMapRef:
+                name: dynatrace-envs
           resources:
             requests:
               cpu: "1"

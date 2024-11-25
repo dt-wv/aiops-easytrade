@@ -10,6 +10,7 @@ spec:
     metadata:
       labels:
         app: calculationservice
+        dt.owner: devopsteam
     spec:
       containers:
         - name: calculationservice
@@ -18,6 +19,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: rabbitmq-vars
+            - configMapRef:
+                name: dynatrace-envs
           resources:
             requests:
               cpu: 10m

@@ -79,5 +79,6 @@ for i in $(kubectl get deployments -n easytrade -o=jsonpath='{.items[*].metadata
 
 echo ""
 echo "[+] Demo installation completed"
-echo "\n"
+echo ""
 echo "Kubernetes Dynatrace cluster: k8s-kind-easytrade-$suffix"
+echo ""

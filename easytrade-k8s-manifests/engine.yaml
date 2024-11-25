@@ -10,6 +10,7 @@ spec:
     metadata:
       labels:
         app: engine
+        dt.owner: devopsteam
     spec:
       containers:
         - name: engine
@@ -21,6 +22,9 @@ spec:
               value: "broker-service:8080"
             - name: PROXY_PREFIX
               value: "engine"
+          envFrom:
+            - configMapRef:
+                name: dynatrace-envs
           resources:
             requests:
               cpu: 10m

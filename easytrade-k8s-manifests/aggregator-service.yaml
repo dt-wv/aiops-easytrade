@@ -19,6 +19,7 @@ spec:
     metadata:
       labels:
         app: aggregator-service
+        dt.owner: devopsteam
     spec:
       containers:
         - name: aggregator-service
@@ -27,6 +28,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: aggregator-service-envs
+            - configMapRef:
+                name: dynatrace-envs
           resources:
             requests:
               cpu: 10m

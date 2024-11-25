@@ -7,6 +7,8 @@ data:
   PRICINGSERVICE_HOSTANDPORT: "pricing-service:8080"
   ENGINE_HOSTANDPORT: "engine:8080"
   PROXY_PREFIX: "broker-service"
+  DT_RELEASE_VERSION: "v1"
+  DT_RELEASE_PRODUCT: "easytrade"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -20,6 +22,7 @@ spec:
     metadata:
       labels:
         app: broker-service
+        dt.owner: devopsteam
     spec:
       containers:
         - name: broker-service
@@ -37,6 +40,8 @@ spec:
                 name: broker-service-envs
             - configMapRef:
                 name: feature-flag-service-setup
+            - configMapRef:
+                name: dynatrace-envs
           resources:
             requests:
               cpu: 150m
