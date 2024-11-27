@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculationservice
+spec:
+  selector:
+    matchLabels:
+      app: calculationservice
+  template:
+    metadata:
+      labels:
+        app: calculationservice
+        dt.owner: devopsteam
+    spec:
+      containers:
+        - name: calculationservice
+          image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/calculationservice:8831949
+          env: []
+          envFrom:
+            - configMapRef:
+                name: rabbitmq-vars
+            - configMapRef:
+                name: dynatrace-envs
+          resources:
+            requests:
+              cpu: 10m
+              memory: 25Mi
+            limits:
+              memory: 25Mi

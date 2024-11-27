@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: loadgen
+  name: loadgen
+spec:
+  selector:
+    matchLabels:
+      app: loadgen
+  template:
+    metadata:
+      labels:
+        app: loadgen
+        dt.owner: devopsteam
+    spec:
+      nodeSelector:
+        easytrade: "true"
+      containers:
+        - name: loadgen
+          image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/loadgen:8831949
+          env:
+            - name: EASYTRADE_URL
+              value: "http://frontendreverseproxy-easytrade"
+            - name: RARE_VISITS_INTERVAL_MINUTES
+              value: "60"
+          envFrom:
+            - configMapRef:
+                name: dynatrace-envs
+          resources:
+            requests:
+              cpu: "1"
+              memory: 2Gi
+            limits:
+              memory: 2Gi

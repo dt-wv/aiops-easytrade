@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+        dt.owner: devopsteam
+    spec:
+      nodeSelector:
+        easytrade: "true"
+      containers:
+        - name: frontend
+          image: europe-docker.pkg.dev/dynatrace-demoability/docker/easytrade/frontend:8831949
+          ports:
+            - containerPort: 3000
+          env: []
+          envFrom:
+            - configMapRef:
+                name: dynatrace-envs
+          resources:
+            requests:
+              cpu: 10m
+              memory: 75Mi
+            limits:
+              memory: 75Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000

@@ -1,0 +1,14 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: demo
+  meshConfig:
+    accessLogFile: /dev/stdout
+  values:
+    gateways:
+      istio-ingressgateway:
+        env:
+          ISTIO_META_HTTP10: '1'
+    pilot:
+      env:
+        PILOT_HTTP10: '1'

@@ -1,0 +1,72 @@
+apiVersion: dynatrace.com/v1beta2
+kind: DynaKube
+metadata:
+  name: k8s-kind-easytrade-REPLACE_NAME
+  namespace: dynatrace
+spec:
+  # For Managed, change the apiUrl address.
+  # For instructions on how to determine the environment ID and how to configure the apiUrl address, see https://www.dynatrace.com/support/help/reference/dynatrace-concepts/environment-id/.
+  apiUrl: https://REPLACE_TENANT_ID.live.dynatrace.com/api
+  tokens: "dynakube"
+  skipCertCheck: false
+  enableIstio: true
+
+  # Configuration for Metadata Enrichment.
+  #
+  metadataEnrichment:
+    # Optional: Enables or disables metadata enrichment
+    # Defaults to "true"
+    #
+    enabled: true
+
+    namespaceSelector:
+       matchLabels:
+         instrumentation: oneagent
+       
+  # Configuration for OneAgent instances
+  #
+  oneAgent:
+    # Cannot be used in conjunction with cloud-native fullstack monitoring, classic fullstack monitoring or host monitoring
+    #
+    applicationMonitoring:
+       namespaceSelector:
+         matchLabels:
+           instrumentation: oneagent
+
+       useCSIDriver: true
+
+       initResources:
+         requests:
+           cpu: 100m
+           memory: 512Mi
+         limits:
+           cpu: 300m
+           memory: 1.5Gi
+
+     
+  # Configuration for ActiveGate instances.
+  #
+  activeGate:
+    # Specifies which capabilities will be enabled on ActiveGate instances
+    # The following capabilities can be set:
+    # - routing
+    # - kubernetes-monitoring
+    # - metrics-ingest
+    # - dynatrace-api
+    #
+    capabilities:
+      - routing
+      - kubernetes-monitoring
+      - dynatrace-api
+
+    # Optional: Specifies resource settings for ActiveGate instances
+    # Consumption of the ActiveGate heavily depends on the workload to monitor
+    # The values should be adjusted according to the workload
+    #
+    resources:
+      requests:
+        cpu: 500m
+        memory: 512Mi
+      limits:
+        cpu: 1000m
+        memory: 1.5Gi
