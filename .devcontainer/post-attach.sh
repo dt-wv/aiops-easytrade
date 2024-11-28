@@ -32,7 +32,7 @@ read -p 'Terraform token: ' DYNATRACE_API_TOKEN
 read -p 'Tenant ID: ' TENANT_ID
 
 #### Some vars
-DYNATRACE_ENV_URL="$TENANT_ID.live.dynatrace.com"
+DYNATRACE_ENV_URL="https://$TENANT_ID.live.dynatrace.com"
 suffix=`cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 5 | head -n 1`
 date_suffix=`date +"%Y-%m-%d-%s"`
 
@@ -73,6 +73,10 @@ helm repo update
 helm install fluent-bit fluent/fluent-bit -f dynatrace/fluent-bit-values.yaml \
 --create-namespace \
 --namespace dynatrace-fluent-bit
+
+##########################
+# Configuration via Terraform
+cd terraform && terraform init && terraform plan && terraform apply --auto-approve
 
 ## label for oneagent injection and inject per deployment
 kubectl label namespace easytrade instrumentation=oneagent
