@@ -28,9 +28,11 @@ echo '###############################################'
 read -p 'Operator token: ' OPERATOR_TOKEN
 read -p 'Data ingest token: ' DATA_INGEST_TOKEN
 read -p 'Log ingest token: ' LOG_TOKEN 
+read -p 'Terraform token: ' DYNATRACE_API_TOKEN
 read -p 'Tenant ID: ' TENANT_ID
 
-#### generate random 5char and date string
+#### Some vars
+DYNATRACE_ENV_URL="$TENANT_ID.live.dynatrace.com"
 suffix=`cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 5 | head -n 1`
 date_suffix=`date +"%Y-%m-%d-%s"`
 

@@ -28,20 +28,20 @@
         "ms-azuretools.vscode-docker",
         "ms-kubernetes-tools.vscode-kubernetes-tools",
         "davidanson.vscode-markdownlint",
-        "gruntfuggly.todo-tree",
         "mutantdino.resourcemonitor",
         "humao.rest-client",
+        "hashicorp.terraform",
         "ms-vscode.makefile-tools"
       ]
     }
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [30100, 30110, 30120, 30130, 30140],
+  "forwardPorts": [30110],
 
   // add labels
   "portsAttributes": {
-    "30100": { "label": "front end" }
+    "30110": { "label": "frontend" }
   },
 
   "hostRequirements": {
