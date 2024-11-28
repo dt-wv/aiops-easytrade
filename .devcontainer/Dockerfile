@@ -12,9 +12,18 @@ RUN chmod +x /tmp/scripts/docker.sh
 # update the container
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install ca-certificates gnupg jq bash-completion -y && \
+    apt-get install ca-certificates gnupg jq bash-completion software-properties-common -y && \
     apt-get autoremove -y && \
     apt-get clean -y
+
+#Install Terraform
+RUN wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | \
+    tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null \
+    && gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint \
+    && echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+    tee /etc/apt/sources.list.d/hashicorp.list \
+    && sudo apt update \
+    && apt-get install terraform
 
 # Install kubectl
 RUN curl -sSL -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \

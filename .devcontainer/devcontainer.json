@@ -30,7 +30,6 @@
         "davidanson.vscode-markdownlint",
         "mutantdino.resourcemonitor",
         "humao.rest-client",
-        "hashicorp.terraform",
         "ms-vscode.makefile-tools"
       ]
     }
