@@ -41,7 +41,7 @@ resource "dynatrace_metric_events" "create_metric_event" {
   event_entity_dimension_key = "dt.entity.service"
   summary                    = "Service 500 errors"
   event_template {
-    description   = "Service 500 Errors"
+    description   = "The {metricname} value was {alert_condition} normal behavior."
     davis_merge = false
     event_type    = "ERROR"
     title         = "Service 500 Errors"
@@ -59,9 +59,15 @@ resource "dynatrace_metric_events" "create_metric_event" {
     type        = "METRIC_KEY"
     aggregation = "AVG"
     metric_key  = "builtin:service.errors.fivexx.rate"
-    dimension_filter {}
     entity_filter {
       dimension_key = "dt.entity.service"
+      conditions{
+        condition{
+            type="TAG" 
+            operator="EQUALS"
+            value="[Environment]DT_RELEASE_PRODUCT:easytrade"
+        }
+      }
     }
   }  
 }
