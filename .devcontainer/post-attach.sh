@@ -32,7 +32,8 @@ read -p 'Terraform token: ' DYNATRACE_API_TOKEN
 read -p 'Tenant ID: ' TENANT_ID
 
 #### Some vars
-DYNATRACE_ENV_URL="https://$TENANT_ID.live.dynatrace.com"
+export DYNATRACE_ENV_URL="https://$TENANT_ID.live.dynatrace.com"
+export DYNATRACE_API_TOKEN
 suffix=`cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 5 | head -n 1`
 date_suffix=`date +"%Y-%m-%d-%s"`
 
