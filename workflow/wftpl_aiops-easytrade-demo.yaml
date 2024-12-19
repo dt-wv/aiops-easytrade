@@ -1,0 +1,295 @@
+metadata:
+  version: "1"
+  dependencies:
+    apps:
+      - id: dynatrace.automations
+        version: ^1.1104.4
+      - id: dynatrace.site.reliability.guardian
+        version: ^1.15.0
+  inputs:
+    - type: connection
+      schema: app:dynatrace.site.reliability.guardian:guardians
+      targets:
+        - tasks.check_what_is_wrong.objectId
+workflow:
+  title: AIops-easytrade-DEMO - Copy
+  tasks:
+    cpu_problem:
+      name: cpu_problem
+      description: Build a custom task running js Code
+      action: dynatrace.automations:run-javascript
+      input:
+        script: |-
+          // optional import of sdk modules
+          import { execution } from '@dynatrace-sdk/automation-utils';
+
+          export default async function ({ executionId }) {
+            // your code goes here
+            // e.g. get the current execution
+            const ex = await execution(executionId);
+            console.log('Automated script execution on behalf of', ex.trigger);
+
+            return { triggeredBy: ex.trigger };
+          }
+      position:
+        x: -1
+        y: 2
+      predecessors:
+        - check_what_is_wrong
+      conditions:
+        states:
+          check_what_is_wrong: OK
+        custom: '{{ result("check_what_is_wrong").validation_details[1].name ==
+          "OrderService - CPU usage" and
+          result("check_what_is_wrong").validation_details[1].status == "fail"
+          }}'
+    disk_problem:
+      name: disk_problem
+      description: Build a custom task running js Code
+      action: dynatrace.automations:run-javascript
+      input:
+        script: |-
+          // optional import of sdk modules
+          import { execution } from '@dynatrace-sdk/automation-utils';
+
+          export default async function ({ executionId }) {
+            // your code goes here
+            // e.g. get the current execution
+            const ex = await execution(executionId);
+            console.log('Automated script execution on behalf of', ex.trigger);
+
+            return { triggeredBy: ex.trigger };
+          }
+      position:
+        x: 1
+        y: 2
+      predecessors:
+        - check_what_is_wrong
+      conditions:
+        states:
+          check_what_is_wrong: OK
+        custom: '{{ result("check_what_is_wrong").validation_details[3].name ==
+          "OrderService - Free Disk Space" and
+          result("check_what_is_wrong").validation_details[3].status == "fail"
+          }}'
+    memory_problem:
+      name: memory_problem
+      description: Build a custom task running js Code
+      action: dynatrace.automations:run-javascript
+      input:
+        script: |-
+          // optional import of sdk modules
+          import { execution } from '@dynatrace-sdk/automation-utils';
+
+          export default async function ({ executionId }) {
+            // your code goes here
+            // e.g. get the current execution
+            const ex = await execution(executionId);
+            console.log('Automated script execution on behalf of', ex.trigger);
+
+            return { triggeredBy: ex.trigger };
+          }
+      position:
+        x: 0
+        y: 2
+      predecessors:
+        - check_what_is_wrong
+      conditions:
+        states:
+          check_what_is_wrong: OK
+        custom: '{{ result("check_what_is_wrong").validation_details[0].name ==
+          "OrderService - Memory Available" and
+          result("check_what_is_wrong").validation_details[0].status == "fail"
+          }}'
+    restart_service:
+      name: restart_service
+      description: Build a custom task running js Code
+      action: dynatrace.automations:run-javascript
+      input:
+        script: >-
+          // optional import of sdk modules
+
+          import { execution } from '@dynatrace-sdk/automation-utils';
+
+          import { executionsClient } from '@dynatrace-sdk/client-automation';
+
+          import { queryExecutionClient } from '@dynatrace-sdk/client-query';
+
+
+          export default async function ({ executionId }) {
+            // your code goes here
+            // e.g. get the current execution
+            const ex = await execution(executionId);
+            let service_url = "REPLACE_SERVICE_URL";
+            
+            let url = "https://"+service_url+"-30110.app.github.dev/feature-flag-service/v1/flags/credit_card_meltdown"
+            let live_url ="https://REPLACE_TENANT_ID.live.dynatrace.com"
+            let event_api_uri = "/api/v2/events/ingest"
+            let api_token = "REPLACE_BIZEVENT_TOKEN"
+            
+            let timeout = 60;
+            let query = `fetch dt.entity.service
+            | filter contains(entity.name,"OrderController")
+            | fieldsRemove entity.name`;
+
+            // Execute the query and wait for the response
+            let response = await queryExecutionClient.queryExecute({ body: { query, requestTimeoutMilliseconds: timeout * 1000, fetchTimeoutSeconds: timeout } });
+            // Return the list of hosts (records) that match the criteria
+            console.log(response.result.records[0].id);
+            console.log(response.result.records['id']);
+            
+            
+            const ingestResponse = await fetch(url, {
+                  method: 'PUT',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                  enabled: false
+                  })
+             });
+
+            const eventResponse = await fetch(live_url+event_api_uri, {
+                  method: 'POST',
+                  headers: { 'Authorization': 'Api-Token '+ api_token,
+                             'Content-Type': 'application/json'  
+                           },
+                  body: JSON.stringify({
+                  "eventType": "CUSTOM_ANNOTATION",
+                  "title": "Workflow Restarted Service",
+                  "entitySelector": "type(SERVICE),entityId("+response.result.records[0].id+")",
+                  "properties": {
+                      "dt.event.deployment.name":"Easytrade",
+                      "dt.event.deployment.version": "1.1",
+                      "dt.event.deployment.release_stage": "production" ,
+                      "dt.event.deployment.release_product": "frontend",
+                      "dt.event.deployment.release_build_version": "123",
+                      "approver": "Jason Miller",
+                      "source": "AIOps - workflow initiated",
+                      "dt.event.deployment.ci_back_link": "https://pipelines/easytrade/123",
+                      "gitcommit": "e5a6baac7eb",
+                      "change-request": "CR-42",
+                      "dt.event.deployment.remediation_action_link": "https://url.com",
+                      "dt.event.is_rootcause_relevant": "false"
+                  }
+                  })
+             });
+
+            console.log(ingestResponse)
+            console.log(eventResponse)
+            
+            console.log('Automated script execution on behalf of', ex.trigger);
+
+            return { triggeredBy: ex.trigger };
+          }
+      position:
+        x: -2
+        y: 3
+      predecessors:
+        - service_problem
+      conditions:
+        states:
+          service_problem: OK
+    service_problem:
+      name: service_problem
+      description: Build a custom task running js Code
+      action: dynatrace.automations:run-javascript
+      input:
+        script: |-
+          // optional import of sdk modules
+          import { execution } from '@dynatrace-sdk/automation-utils';
+
+          export default async function ({ executionId }) {
+            // your code goes here
+            // e.g. get the current execution
+            const ex = await execution(executionId);
+            
+            let srg_result = await ex.result('check_what_is_wrong');
+            //console.log(srg_result.variables);
+            if (srg_result.validation_details[4].value == 100) {
+              console.log(srg_result.validation_details[4].value);
+              return true;
+            }else{ return false;}
+            
+          }
+      position:
+        x: -2
+        y: 2
+      predecessors:
+        - check_what_is_wrong
+      conditions:
+        states:
+          check_what_is_wrong: OK
+        custom: '{{ result("check_what_is_wrong").validation_details[4].name ==
+          "OrderService - Failure Rate" and
+          result("check_what_is_wrong").validation_details[4].status == "fail"
+          }}'
+    increase_resource:
+      name: increase_resource
+      description: Build a custom task running js Code
+      action: dynatrace.automations:run-javascript
+      input:
+        script: |-
+          // optional import of sdk modules
+          import { execution } from '@dynatrace-sdk/automation-utils';
+
+          export default async function ({ executionId }) {
+            // your code goes here
+            // e.g. get the current execution
+            const ex = await execution(executionId);
+            console.log('Automated script execution on behalf of', ex.trigger);
+
+            return { triggeredBy: ex.trigger };
+          }
+      position:
+        x: 0
+        y: 3
+      predecessors:
+        - memory_problem
+        - cpu_problem
+        - disk_problem
+      conditions:
+        states:
+          cpu_problem: OK
+          disk_problem: OK
+          memory_problem: OK
+    check_what_is_wrong:
+      name: check_what_is_wrong
+      description: Automation action to start a Site Reliability Guardian validation
+      action: dynatrace.site.reliability.guardian:validate-guardian-action
+      input:
+        objectId: ""
+        variables: []
+        executionId: "{{ execution().id }}"
+        timeframeSelector:
+          to: now()
+          from: now()-2h
+        timeframeInputType: timeframeSelector
+      position:
+        x: 0
+        y: 1
+      predecessors: []
+  description: ""
+  trigger:
+    eventTrigger:
+      filterQuery: event.kind == "DAVIS_PROBLEM" AND event.status == "ACTIVE" AND
+        (event.status_transition == "CREATED" OR event.status_transition ==
+        "UPDATED" OR event.status_transition == "REOPENED") AND (event.category
+        == "ERROR") AND (matchesValue(entity_tags,
+        "[Environment]DT_RELEASE_PRODUCT:easytrade"))
+      isActive: true
+      uniqueExpression: '{{ event()["event.id"] }}-{{ "open" if
+        event()["event.status_transition"] in ("CREATED", "UPDATED", "REOPENED",
+        "REFRESHED") else "resolved" }}-{{
+        event()["dt.davis.last_reopen_timestamp"] }}'
+      triggerConfiguration:
+        type: davis-problem
+        value:
+          categories:
+            error: true
+          entityTags:
+            "[Environment]DT_RELEASE_PRODUCT":
+              - easytrade
+          customFilter: ""
+          onProblemClose: false
+          entityTagsMatch: any
+  schemaVersion: 3
+  type: STANDARD

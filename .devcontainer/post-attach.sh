@@ -27,13 +27,20 @@ echo '#          Dynatrace information              #'
 echo '###############################################'
 read -p 'Operator token: ' OPERATOR_TOKEN
 read -p 'Data ingest token: ' DATA_INGEST_TOKEN
-read -p 'Log ingest token: ' LOG_TOKEN 
+read -p 'Log ingest token: ' LOG_TOKEN
+read -p 'BizEvent ingest token: ' BIZEVENT_TOKEN 
 read -p 'Terraform token: ' DYNATRACE_API_TOKEN
+read -p 'Terraform oauth client id: ' DT_CLIENT_ID
+read -p 'Terraform client secret: ' DT_CLIENT_SECRET
+read -p 'Terraform account id (urn): ' DT_ACCOUNT_ID
 read -p 'Tenant ID: ' TENANT_ID
 
 #### Some vars
 export DYNATRACE_ENV_URL="https://$TENANT_ID.live.dynatrace.com"
 export DYNATRACE_API_TOKEN
+export DT_CLIENT_ID
+export DT_CLIENT_SECRET
+export DT_ACCOUNT_ID
 suffix=`cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 5 | head -n 1`
 date_suffix=`date +"%Y-%m-%d-%s"`
 
@@ -50,6 +57,9 @@ sed -i "s/REPLACE_TENANT_ID/$TENANT_ID/g" dynatrace/application.yaml
 sed -i "s/REPLACE_TENANT_ID/$TENANT_ID/g" dynatrace/fluent-bit-values.yaml
 sed -i "s/REPLACE_LOG_TOKEN/$LOG_TOKEN/g" dynatrace/fluent-bit-values.yaml
 sed -i "s/REPLACE_DATE/$date_suffix/g" dynatrace/fluent-bit-values.yaml
+set -i "s/REPLACE_SERVICE_URL/$CODESPACE_NAME/g" workflow/wftpl_aiops-easytrade-demo.yaml
+sed -i "s/REPLACE_TENTANT_ID/$TENANT_ID/g" workflow/wftpl_aiops-easytrade-demo.yaml
+sed -i "s/REPLACE_BIZEVENT_TOKEN/$BIZEVENT_TOKEN/g" workflow/wftpl_aiops-easytrade-demo.yaml
 
 kubectl apply -f dynatrace/application.yaml
 sleep 60
