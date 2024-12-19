@@ -72,7 +72,7 @@ resource "dynatrace_metric_events" "create_metric_event" {
   }  
 }
 
-dynatrace_site_reliability_guardianresource "dynatrace_site_reliability_guardian" "easytrade-demo" {
+resource "dynatrace_site_reliability_guardian" "easytrade-demo" {
   name        = "easytrade-demo"
   description = "Easytrade DEMO SRG for OrderController service restart"
   tags        = [ "app:easytrade" ]
