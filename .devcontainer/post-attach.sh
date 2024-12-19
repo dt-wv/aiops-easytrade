@@ -58,7 +58,7 @@ sed -i "s/REPLACE_TENANT_ID/$TENANT_ID/g" dynatrace/fluent-bit-values.yaml
 sed -i "s/REPLACE_LOG_TOKEN/$LOG_TOKEN/g" dynatrace/fluent-bit-values.yaml
 sed -i "s/REPLACE_DATE/$date_suffix/g" dynatrace/fluent-bit-values.yaml
 sed -i "s/REPLACE_SERVICE_URL/$CODESPACE_NAME/g" workflow/wftpl_aiops-easytrade-demo.yaml
-sed -i "s/REPLACE_TENTANT_ID/$TENANT_ID/g" workflow/wftpl_aiops-easytrade-demo.yaml
+sed -i "s/REPLACE_TENANT_ID/$TENANT_ID/g" workflow/wftpl_aiops-easytrade-demo.yaml
 sed -i "s/REPLACE_BIZEVENT_TOKEN/$BIZEVENT_TOKEN/g" workflow/wftpl_aiops-easytrade-demo.yaml
 
 kubectl apply -f dynatrace/application.yaml
