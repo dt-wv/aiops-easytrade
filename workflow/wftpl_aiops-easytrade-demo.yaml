@@ -267,6 +267,42 @@ workflow:
         x: 0
         y: 1
       predecessors: []
+    update_problem_comment:
+      name: update_problem_comment
+      description: Build a custom task running js Code
+      action: dynatrace.automations:run-javascript
+      input:
+        script: >
+          import { execution } from '@dynatrace-sdk/automation-utils';
+
+          import { problemsClient } from '@dynatrace-sdk/client-classic-environment-v2';
+
+          const main = async ({ execution_id }) => {
+            // Get details of current workflow
+            const ex = await execution(execution_id);
+            const event = ex?.params?.event || {};
+            const problemId = event['event.id'];
+
+            const config = {
+              problemId,
+              body: {
+                context: "AIOps - Auto Remediation",
+                message: "Remediation action triggered!"
+              }
+            }
+            console.log(config)
+            await problemsClient.createComment(config);
+          }
+
+          export { main as default };
+      position:
+        x: -2
+        y: 4
+      predecessors:
+        - restart_service
+      conditions:
+        states:
+          restart_service: OK  
   description: ""
   trigger:
     eventTrigger:
@@ -288,6 +324,8 @@ workflow:
           entityTags:
             "[Environment]DT_RELEASE_PRODUCT":
               - easytrade
+            app-srg:
+              - credit-card-order-service
           customFilter: ""
           onProblemClose: false
           entityTagsMatch: any
