@@ -139,8 +139,20 @@ cd terraform && terraform init && terraform plan && terraform apply --auto-appro
 kubectl label namespace easytrade instrumentation=oneagent
 for i in $(kubectl get deployments -n easytrade -o=jsonpath='{.items[*].metadata.name}'); do kubectl rollout restart -n easytrade deployment $i ; sleep 60 ; done
 
+## Start lab-guide
+# Download and install nvm:
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+# in lieu of restarting the shell
+\. "$HOME/.nvm/nvm.sh"
+# Download and install Node.js:
+nvm install 22
+
+node bin/generator.js
+node bin/server.js &
+
 echo ""
 echo "[+] Demo installation completed"
 echo ""
 echo "Kubernetes Dynatrace cluster: k8s-kind-easytrade-$suffix"
 echo ""
+echo "Lab Guide running on: https://$CODESPACE_NAME-"
