@@ -25,15 +25,61 @@ clear
 echo '###############################################'
 echo '#          Dynatrace information              #'
 echo '###############################################'
-read -p 'Operator token: ' OPERATOR_TOKEN
-read -p 'Data ingest token: ' DATA_INGEST_TOKEN
-read -p 'Log ingest token: ' LOG_TOKEN
-read -p 'BizEvent ingest token: ' BIZEVENT_TOKEN 
-read -p 'Terraform token: ' DYNATRACE_API_TOKEN
-read -p 'Terraform oauth client id: ' DT_CLIENT_ID
-read -p 'Terraform client secret: ' DT_CLIENT_SECRET
-read -p 'Terraform account id (urn): ' DT_ACCOUNT_ID
-read -p 'Tenant ID: ' TENANT_ID
+
+if [ -z "$OPERATOR_TOKEN" ]; then
+  read -p 'Operator token: ' OPERATOR_TOKEN
+else
+  echo "OPERATOR_TOKEN has been set"
+fi
+
+if [ -z "$DATA_INGEST_TOKEN" ]; then
+  read -p 'Data ingest token: ' DATA_INGEST_TOKEN
+else
+  echo "DATA_INGEST_TOKEN has been set"
+fi
+
+if [ -z "$LOG_TOKEN" ]; then
+  read -p 'Log ingest token: ' LOG_TOKEN
+else
+  echo "LOG_TOKEN has been set"
+fi
+
+if [ -z "$BIZEVENT_TOKEN" ]; then
+  read -p 'BizEvent ingest token: ' BIZEVENT_TOKEN
+else
+  echo "BIZEVENT_TOKEN has been set"
+fi
+
+if [ -z "$DYNATRACE_API_TOKEN" ]; then
+  read -p 'Terraform token: ' DYNATRACE_API_TOKEN
+else
+  echo "DYNATRACE_API_TOKEN has been set"
+fi
+
+if [ -z "$DT_CLIENT_ID" ]; then
+  read -p 'Terraform oauth client id: ' DT_CLIENT_ID
+else
+  echo "DT_CLIENT_ID has been set"
+fi
+
+if [ -z "$DT_CLIENT_SECRET" ]; then
+  read -p 'Terraform client secret: ' DT_CLIENT_SECRET
+else
+  echo "DT_CLIENT_SECRET has been set"
+fi
+
+if [ -z "$DT_ACCOUNT_ID" ]; then
+  read -p 'Terraform account id (urn): ' DT_ACCOUNT_ID
+else
+  echo "DT_ACCOUNT_ID has been set"
+fi
+
+if [ -z "$TENANT_ID" ]; then
+  read -p 'Tenant ID: ' TENANT_ID
+else
+  echo "TENANT_ID has been set"
+fi
+
 
 #### Some vars
 export DYNATRACE_ENV_URL="https://$TENANT_ID.live.dynatrace.com"

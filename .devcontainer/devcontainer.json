@@ -24,22 +24,16 @@
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash"
       },
-      "extensions": [
-        "ms-azuretools.vscode-docker",
-        "ms-kubernetes-tools.vscode-kubernetes-tools",
-        "davidanson.vscode-markdownlint",
-        "mutantdino.resourcemonitor",
-        "humao.rest-client",
-        "ms-vscode.makefile-tools"
-      ]
+      "extensions": []
     }
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [30110],
+  "forwardPorts": [3000,30110],
 
   // add labels
   "portsAttributes": {
+    "3000": { "label": "lab-guide"},
     "30110": { "label": "frontend" }
   },
 
@@ -55,10 +49,40 @@
   // Use 'postStartCommand' to run commands after the container starts.
   "postStartCommand": "chmod +x .devcontainer/post-start.sh && .devcontainer/post-start.sh",
 
-  
-
   // // Add recommended secrets
   "secrets": {
-
-  }
+		"OPERATOR_TOKEN": {
+			"description": "K8s operator token",
+      "documentationUrl": "https://docs.dynatrace.com/docs/ingest-from/setup-on-k8s/deployment/tokens-permissions#operatorToken"
+		},
+		"DATA_INGEST_TOKEN": {
+			"description": "K8s data ingest token",
+      "documentationUrl": "https://docs.dynatrace.com/docs/ingest-from/setup-on-k8s/deployment/tokens-permissions#dataIngestToken"
+		},
+		"LOG_TOKEN": {
+			"description": "A Dynatrace access token with these permissions: `logs.ingest`"
+		},
+		"BIZEVENT_TOKEN": {
+			"description": "A Dynatrace access token with these permissions: `bizevents.ingest`"
+		},
+    "DYNATRACE_API_TOKEN": {
+			"description": "A Dynatrace access token for the Terraform Dynatrace provider",
+      "documentationUrl": "https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest/docs"
+		},
+		"DT_CLIENT_ID": {
+			"description": "A Dynatrace Terraform OAUTH client ID",
+			"documentationUrl": "https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest/docs"
+		},
+    "DT_CLIENT_SECRET": {
+			"description": "A Dynatrace Terraform OAUTH client secret",
+			"documentationUrl": "https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest/docs"
+		},
+		"DT_ACCOUNT_ID": {
+			"description": "A Dynatrace Terraform account id (URN)",
+			"documentationUrl": "https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest/docs"
+		},
+    "TENANT_ID": {
+			"description": "`abc12345` from `https://abc12345.live.apps.dynatrace.com`"
+		}
+	}
 }
