@@ -135,11 +135,9 @@ helm install fluent-bit fluent/fluent-bit -f dynatrace/fluent-bit-values.yaml \
 # Configuration via Terraform
 cd terraform && terraform init && terraform plan && terraform apply --auto-approve
 
-## label for oneagent injection and inject per deployment
-kubectl label namespace easytrade instrumentation=oneagent
-for i in $(kubectl get deployments -n easytrade -o=jsonpath='{.items[*].metadata.name}'); do kubectl rollout restart -n easytrade deployment $i ; sleep 60 ; done
-
-## Start lab-guide
+#############################
+## Start lab-guide installation
+cd ../lab-guide
 # Download and install nvm:
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 # in lieu of restarting the shell
@@ -150,9 +148,15 @@ nvm install 22
 node bin/generator.js
 node bin/server.js &
 
+## label for oneagent injection and inject per deployment
+kubectl label namespace easytrade instrumentation=oneagent
+for i in $(kubectl get deployments -n easytrade -o=jsonpath='{.items[*].metadata.name}'); do kubectl rollout restart -n easytrade deployment $i ; sleep 60 ; done
+
+
+
 echo ""
 echo "[+] Demo installation completed"
 echo ""
 echo "Kubernetes Dynatrace cluster: k8s-kind-easytrade-$suffix"
 echo ""
-echo "Lab Guide running on: https://$CODESPACE_NAME-"
+echo "Lab Guide running on: https://$CODESPACE_NAME-3000.app.github.dev"
