@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+#############################
+## Start lab-guide installation
+cd ../lab-guide
+# Download and install nvm:
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+# in lieu of restarting the shell
+\. "$HOME/.nvm/nvm.sh"
+# Download and install Node.js:
+nvm install 22
+
+node bin/generator.js
+node bin/server.js &
+
 ##########################
 # Deploy Kind - k8s
 kind create cluster --config .devcontainer/kind-cluster.yml --wait 300s
@@ -135,18 +148,6 @@ helm install fluent-bit fluent/fluent-bit -f dynatrace/fluent-bit-values.yaml \
 # Configuration via Terraform
 cd terraform && terraform init && terraform plan && terraform apply --auto-approve
 
-#############################
-## Start lab-guide installation
-cd ../lab-guide
-# Download and install nvm:
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-# in lieu of restarting the shell
-\. "$HOME/.nvm/nvm.sh"
-# Download and install Node.js:
-nvm install 22
-
-node bin/generator.js
-node bin/server.js &
 
 ## label for oneagent injection and inject per deployment
 kubectl label namespace easytrade instrumentation=oneagent
