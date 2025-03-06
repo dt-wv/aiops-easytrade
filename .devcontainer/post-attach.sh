@@ -12,8 +12,11 @@ nvm install 22
 
 node bin/generator.js
 node bin/server.js &
-
+echo ""
+echo "Lab Guide running on: https://$CODESPACE_NAME-3000.app.github.dev"
+echo ""
 cd ..
+
 ##########################
 # Deploy Kind - k8s
 kind create cluster --config .devcontainer/kind-cluster.yml --wait 300s
