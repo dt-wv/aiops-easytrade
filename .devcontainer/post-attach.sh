@@ -2,6 +2,7 @@
 
 #############################
 ## Start lab-guide installation
+cd lab-guide
 # Download and install nvm:
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 # in lieu of restarting the shell
@@ -9,9 +10,10 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 # Download and install Node.js:
 nvm install 22
 
-node lab-guide/bin/generator.js
-node lab-guide/bin/server.js &
+node bin/generator.js
+node bin/server.js &
 
+cd ..
 ##########################
 # Deploy Kind - k8s
 kind create cluster --config .devcontainer/kind-cluster.yml --wait 300s
