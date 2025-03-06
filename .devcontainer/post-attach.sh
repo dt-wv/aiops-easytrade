@@ -2,7 +2,7 @@
 
 #############################
 ## Start lab-guide installation
-cd ../lab-guide
+cd lab-guide
 # Download and install nvm:
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 # in lieu of restarting the shell
