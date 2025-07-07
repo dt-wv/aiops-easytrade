@@ -97,6 +97,7 @@ kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/downlo
 kubectl -n dynatrace wait pod --for=condition=ready --selector=app.kubernetes.io/name=dynatrace-operator,app.kubernetes.io/component=webhook --timeout=120s
 kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=$OPERATOR_TOKEN" --from-literal="dataIngestToken=$DATA_INGEST_TOKEN"
 
+# Application Only without CSI
 sed -i "s/REPLACE_NAME/$suffix/g" dynatrace/application.yaml
 sed -i "s/REPLACE_TENANT_ID/$TENANT_ID/g" dynatrace/application.yaml
 
@@ -121,6 +122,7 @@ sleep 30
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 sleep 120
 kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml
+sleep 120
 
 kubectl apply -f dynatrace/otel-log-collector-clusterrole.yaml
 kubectl apply -f dynatrace/otel-log-collector-clusterrole-crb.yaml

@@ -1,8 +1,11 @@
-apiVersion: dynatrace.com/v1beta2
+apiVersion: dynatrace.com/v1beta3
 kind: DynaKube
 metadata:
   name: k8s-kind-easytrade-REPLACE_NAME
   namespace: dynatrace
+  annotations:
+  # Enforce CSI-less application monitoring
+    oneagent.dynatrace.com/volume-type: "ephemeral"
 spec:
   # For Managed, change the apiUrl address.
   # For instructions on how to determine the environment ID and how to configure the apiUrl address, see https://www.dynatrace.com/support/help/reference/dynatrace-concepts/environment-id/.
@@ -32,8 +35,6 @@ spec:
        namespaceSelector:
          matchLabels:
            instrumentation: oneagent
-
-       useCSIDriver: true
 
        initResources:
          requests:
